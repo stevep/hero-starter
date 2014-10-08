@@ -43,10 +43,12 @@ game.addDiamondMine(2,1);
 game.addDiamondMine(2,3);
 
 //Add your hero in the top left corner of the map (team 0)
-game.addHero(0, 0, 'MyHero', 0);
+game.addHero(0, 1, 'MyHero', 0);
+game.addHero(0, 2, 'Hero 2', 0);
 
 //Add an enemy hero in the bottom left corner of the map (team 1)
-game.addHero(4, 4, 'Enemy', 1);
+game.addHero(4, 4, 'Enemy 1', 1);
+game.addHero(3, 4, 'Enemy 2', 1);
 
 console.log('About to start the game!  Here is what the board looks like:');
 
@@ -56,12 +58,12 @@ console.log('About to start the game!  Here is what the board looks like:');
 game.board.inspect();
 
 //Play a very short practice game
-var turnsToPlay = 15;
+var turnsToPlay = 60;
 
 for (var i=0; i<turnsToPlay; i++) {
   var hero = game.activeHero;
   var direction;
-  if (hero.name === 'MyHero') {
+  if (hero.name === 'MyHero' || hero.name === "Hero 2") {
 
     //Ask your hero brain which way it wants to move
     direction = heroMoveFunction(game, helpers);

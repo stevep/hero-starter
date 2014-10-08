@@ -79,7 +79,7 @@
 //   }
 // };
 
-// // The "Safe Diamond Miner"
+// The "Safe Diamond Miner"
 var move = function(gameData, helpers) {
   var myHero = gameData.activeHero;
 
@@ -91,14 +91,26 @@ var move = function(gameData, helpers) {
   });
   var distanceToHealthWell = healthWellStats.distance;
   var directionToHealthWell = healthWellStats.direction;
+
+  //Get stats on the nearest unhealthy teammate
+  var nearestTeamMateStats = helpers.findNearestObjectDirectionAndDistance(gameData.board, myHero, function(boardTile) {
+    if (heroTile.type === 'Hero' && heroTile.team === hero.team && heroTitle.health < 100) {
+      return true;
+    }
+  });
+  var distanceToTeamMate = nearestTeamMateStats.distance;
+  var directionToTeamMate = nearestTeamMateStats.direction;
   
 
-  if (myHero.health < 40) {
+  if (myHero.health <= 40) {
     //Heal no matter what if low health
     return directionToHealthWell;
   } else if (myHero.health < 100 && distanceToHealthWell === 1) {
     //Heal if you aren't full health and are close to a health well already
     return directionToHealthWell;
+  } else if ( distanceToTeamMate === 1) {
+    //Heal team mate in need if close to them and they aren't full health
+    return directionToTeamMate;
   } else {
     //If healthy, go capture a diamond mine!
     return helpers.findNearestNonTeamDiamondMine(gameData);
